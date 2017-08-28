@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "136519959490",
+    "firebase_url": "https://beta-theta-pi.firebaseio.com",
+    "project_id": "beta-theta-pi",
+    "storage_bucket": "beta-theta-pi.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:136519959490:android:0f63cede66019b3f",
+        "android_client_info": {
+          "package_name": "com.solutions.coyne.betathetapi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "136519959490-4t7bc0esr63c1d4nhddqjh6a21u5u0uf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.solutions.coyne.betathetapi",
+            "certificate_hash": "3129ab6ee3b7cf5bbc9c146f1286d1c38a80b663"
+          }
+        },
+        {
+          "client_id": "136519959490-2nr9u4c069768h4h1afs1gdt1fat565m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCpYYTXMynkBekRn0amde0VU-XSAm8VpSY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "136519959490-2nr9u4c069768h4h1afs1gdt1fat565m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
