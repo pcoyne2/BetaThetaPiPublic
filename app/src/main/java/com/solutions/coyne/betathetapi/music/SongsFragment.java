@@ -28,7 +28,6 @@ public class SongsFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setRetainInstance(true);
 
         songBox = new SongBox(getActivity());
     }

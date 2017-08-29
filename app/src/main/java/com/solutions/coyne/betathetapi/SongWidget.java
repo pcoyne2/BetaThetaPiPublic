@@ -26,6 +26,7 @@ public class SongWidget extends AppWidgetProvider {
         Intent i = new Intent(context, Main2Activity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         i.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        i.putExtra("FRAGMENT", "Songs");
 //        i.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0,
                 i, 0);

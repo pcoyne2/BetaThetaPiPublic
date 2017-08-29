@@ -7,25 +7,20 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.solutions.coyne.betathetapi.LogInActivity">
-    <Spinner
-        android:id="@+id/chapter_spinner"
-        android:entries="@array/chapter_arrays"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    
     <EditText
         android:id="@+id/school"
-        android:text="Eta Delta"
+        android:text="@string/test_school"
         android:hint="School as adapter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <EditText
-        android:hint="email"
+        android:hint="@string/email"
         android:id="@+id/email_signin"
+        android:inputType="textEmailAddress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <EditText
-        android:hint="password"
+        android:hint="@string/password"
         android:id="@+id/password_signin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -34,6 +29,6 @@
         android:id="@+id/sign_in_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Sign In"/>
+        android:text="@string/sign_in"/>
 
 </LinearLayout>

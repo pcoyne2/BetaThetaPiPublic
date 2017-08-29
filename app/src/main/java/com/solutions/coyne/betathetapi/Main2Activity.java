@@ -30,7 +30,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.solutions.coyne.betathetapi.messages.ChatRoomFragment;
@@ -57,7 +56,6 @@ public class Main2Activity extends AppCompatActivity
     private FirebaseAuth.AuthStateListener mAuthStateListener;
     private FirebaseStorage mFirebaseStorage;
     private StorageReference mChatPhotosStorageReference;
-    private FirebaseRemoteConfig mFirebaseRemoteConfig;
 
     List<User> users;
     UserSingleton userSingleton;
@@ -77,7 +75,6 @@ public class Main2Activity extends AppCompatActivity
         mFireBaseDatabase = FirebaseDatabase.getInstance();
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseStorage = FirebaseStorage.getInstance();
-        mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
 
         userSingleton = UserSingleton.getInstance();
 
@@ -103,14 +100,22 @@ public class Main2Activity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        Intent i = getIntent();
+        String fragmentName = i.getStringExtra("FRAGMENT");
 
         FragmentManager fm = getSupportFragmentManager();
         Fragment fragment = fm.findFragmentById(R.id.fragment_holder);
         if(fragment == null) {
             FragmentTransaction ft = fm.beginTransaction();
-            Fragment frag = new DirectoryFragment();
-            ft.add(R.id.fragment_holder, frag);
-            ft.commit();
+            if(fragmentName != null && fragmentName.equals("Songs")){
+                Fragment frag = new SongsFragment();
+                ft.add(R.id.fragment_holder, frag);
+                ft.commit();
+            }else {
+                Fragment frag = new DirectoryFragment();
+                ft.add(R.id.fragment_holder, frag);
+                ft.commit();
+            }
         }
 
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
@@ -122,9 +127,9 @@ public class Main2Activity extends AppCompatActivity
                     //Toast.makeText(MainActivity.this, "You're now signed in. Welcome to FriendlyChat.", Toast.LENGTH_SHORT).show();
                     userSingleton.setUser(new User(user.getDisplayName(), user.getUid(), "Eta Delta", user.getEmail()));
                     onSignInInitialize(user.getDisplayName());
-                    DirectoryFragment fragment = (DirectoryFragment)getSupportFragmentManager().findFragmentById(R.id.fragment_holder);
-                    if(fragment != null){
-                        fragment.reattachDbListener();
+                    Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_holder);
+                    if(fragment instanceof DirectoryFragment){
+                        ((DirectoryFragment)fragment).reattachDbListener();
                     }
                 }else{
                     //User is signed out
@@ -243,6 +248,9 @@ public class Main2Activity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
+        if(id == R.id.my_profile){
+            startActivity(new Intent(this, MyProfile.class));
+        }
         if (id == R.id.action_settings) {
             return true;
         }
