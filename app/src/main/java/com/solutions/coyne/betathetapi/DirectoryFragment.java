@@ -1,6 +1,8 @@
 package com.solutions.coyne.betathetapi;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -10,6 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -59,7 +63,9 @@ public class DirectoryFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        membersDbRef = mFireBaseDatabase.getReference().child("Eta Delta").child("users");
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String school = prefs.getString(getString(R.string.School), "Eta Delta");
+        membersDbRef = mFireBaseDatabase.getReference().child(school).child("users");
         attachDatabaseReadListener();
     }
 
@@ -73,7 +79,14 @@ public class DirectoryFragment extends Fragment {
         }
     }
 
+    public void reattachDbListener(){
+        detachDatabaseReadListener();
+        attachDatabaseReadListener();
+    }
+
     private void attachDatabaseReadListener(){
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = firebaseAuth.getCurrentUser();
         if(mChildEventListener == null) {
             mChildEventListener = new ChildEventListener() {
                 @Override
@@ -110,6 +123,13 @@ public class DirectoryFragment extends Fragment {
                 }
             };
             membersDbRef.addChildEventListener(mChildEventListener);
+        }
+    }
+
+    private void detachDatabaseReadListener(){
+        if(mChildEventListener != null) {
+            membersDbRef.removeEventListener(mChildEventListener);
+            mChildEventListener = null;
         }
     }
 }

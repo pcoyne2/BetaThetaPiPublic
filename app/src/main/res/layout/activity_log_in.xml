@@ -7,6 +7,12 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.solutions.coyne.betathetapi.LogInActivity">
+    <Spinner
+        android:id="@+id/chapter_spinner"
+        android:entries="@array/chapter_arrays"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    
     <EditText
         android:id="@+id/school"
         android:text="Eta Delta"

@@ -26,7 +26,7 @@ public class LogInActivity extends AppCompatActivity {
                 intent.putExtra("EMAIL", email.getText().toString());
                 intent.putExtra("PASSWORD", password.getText().toString());
                 intent.putExtra("SCHOOL", school.getText().toString());
-                setResult(3, intent);
+                setResult(RESULT_OK, intent);
                 finish();
             }
         });

@@ -48,10 +48,11 @@ public class Main2Activity extends AppCompatActivity
     public static final int RC_SIGN_IN = 1;
 
     private String mUsername;
+    private boolean isLoggingIn;
 
     private FirebaseDatabase mFireBaseDatabase;
-    private DatabaseReference mMessagesDatabaseReference;
-    private ChildEventListener mChildEventListener;
+//    private DatabaseReference mMessagesDatabaseReference;
+//    private ChildEventListener mChildEventListener;
     private FirebaseAuth mFirebaseAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
     private FirebaseStorage mFirebaseStorage;
@@ -68,6 +69,8 @@ public class Main2Activity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        isLoggingIn = false;
+
         mUsername = "ANONYMOUS";
         users = new ArrayList<>();
 
@@ -79,7 +82,7 @@ public class Main2Activity extends AppCompatActivity
         userSingleton = UserSingleton.getInstance();
 
 //        if(userSingleton.getUser() != null) {
-        mMessagesDatabaseReference = mFireBaseDatabase.getReference().child("Alpha").child("users");
+//        mMessagesDatabaseReference = mFireBaseDatabase.getReference().child("Alpha").child("users");
 //        }
 
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -119,11 +122,17 @@ public class Main2Activity extends AppCompatActivity
                     //Toast.makeText(MainActivity.this, "You're now signed in. Welcome to FriendlyChat.", Toast.LENGTH_SHORT).show();
                     userSingleton.setUser(new User(user.getDisplayName(), user.getUid(), "Eta Delta", user.getEmail()));
                     onSignInInitialize(user.getDisplayName());
+                    DirectoryFragment fragment = (DirectoryFragment)getSupportFragmentManager().findFragmentById(R.id.fragment_holder);
+                    if(fragment != null){
+                        fragment.reattachDbListener();
+                    }
                 }else{
                     //User is signed out
                     //Give ability for pledge, possible new members, etc to browse unconfidential parts
                     // like calendar, members (not all data), etc
-                    startActivityForResult(new Intent(Main2Activity.this, LogInActivity.class), 3);
+                    if(!isLoggingIn) {
+                        startActivityForResult(new Intent(Main2Activity.this, LogInActivity.class), 3);
+                    }
 //                    onSignedOutCleanup();
 //                    startActivityForResult(
 //                            AuthUI.getInstance()
@@ -140,6 +149,7 @@ public class Main2Activity extends AppCompatActivity
                 }
             }
         };
+
     }
 
     @Override
@@ -150,13 +160,14 @@ public class Main2Activity extends AppCompatActivity
                 // Sign-in succeeded, set up the UI
                 Toast.makeText(this, "Signed in!", Toast.LENGTH_SHORT).show();
                 mFireBaseDatabase.getReference().child("users").push().setValue(mFirebaseAuth.getCurrentUser().getUid());
-                mMessagesDatabaseReference = mFireBaseDatabase.getReference().child(mFirebaseAuth.getCurrentUser().getUid()).child("messages");
+//                mMessagesDatabaseReference = mFireBaseDatabase.getReference().child(mFirebaseAuth.getCurrentUser().getUid()).child("messages");
             } else if (resultCode == RESULT_CANCELED) {
                 // Sign in was canceled by the user, finish the activity
                 Toast.makeText(this, "Sign in canceled", Toast.LENGTH_SHORT).show();
                 finish();
             }
-        }else if(requestCode ==3){
+        }else if(requestCode ==3 & resultCode == RESULT_OK){
+            isLoggingIn = true;
             final String emial = data.getStringExtra("EMAIL");
             String pass = data.getStringExtra("PASSWORD");
             final String school = data.getStringExtra("SCHOOL");
@@ -172,11 +183,13 @@ public class Main2Activity extends AppCompatActivity
                                 user.put(mFirebaseAuth.getCurrentUser().getUid(),
                                         userSingleton.getUser());
                                 mFireBaseDatabase.getReference().child(school).child("users").updateChildren(user);
-                                mMessagesDatabaseReference = mFireBaseDatabase.getReference().child(userSingleton.getUser().getSchool()).child("users");
+//                                mMessagesDatabaseReference = mFireBaseDatabase.getReference().child(userSingleton.getUser().getSchool()).child("users");
                                 Log.d("TAG", "onComplete");
                             }else{
                                 Log.d("TAG", "onFail");
+                                startActivityForResult(new Intent(Main2Activity.this, LogInActivity.class), 3);
                             }
+                            isLoggingIn = false;
                         }
                     });
         }
@@ -280,40 +293,40 @@ public class Main2Activity extends AppCompatActivity
 
     private void onSignInInitialize(String displayName) {
         mUsername = displayName;
-        attachDatabaseReadListener();
+//        attachDatabaseReadListener();
     }
 
     private void attachDatabaseReadListener(){
-        if(mChildEventListener == null) {
-            mChildEventListener = new ChildEventListener() {
-                @Override
-                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                    User user = dataSnapshot.getValue(User.class);
-//                    mMessageAdapter.add(friendlyMessage);
-                    UserSingleton userSingleton = UserSingleton.getInstance();
-                    if(user.getKey().equals(userSingleton.getUser().getKey())) {
-                        userSingleton.setUser(user);
-                    }
-                }
-
-                @Override
-                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                }
-
-                @Override
-                public void onChildRemoved(DataSnapshot dataSnapshot) {
-                }
-
-                @Override
-                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                }
-            };
-            mMessagesDatabaseReference.addChildEventListener(mChildEventListener);
-        }
+//        if(mChildEventListener == null) {
+//            mChildEventListener = new ChildEventListener() {
+//                @Override
+//                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+//                    User user = dataSnapshot.getValue(User.class);
+////                    mMessageAdapter.add(friendlyMessage);
+//                    UserSingleton userSingleton = UserSingleton.getInstance();
+//                    if(user.getKey().equals(userSingleton.getUser().getKey())) {
+//                        userSingleton.setUser(user);
+//                    }
+//                }
+//
+//                @Override
+//                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+//                }
+//
+//                @Override
+//                public void onChildRemoved(DataSnapshot dataSnapshot) {
+//                }
+//
+//                @Override
+//                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+//                }
+//
+//                @Override
+//                public void onCancelled(DatabaseError databaseError) {
+//                }
+//            };
+//            mMessagesDatabaseReference.addChildEventListener(mChildEventListener);
+//        }
     }
 
     private void onSignedOutCleanup(){
@@ -322,10 +335,10 @@ public class Main2Activity extends AppCompatActivity
     }
 
     private void detachDatabaseReadListener(){
-        if(mChildEventListener != null) {
-            mMessagesDatabaseReference.removeEventListener(mChildEventListener);
-            mChildEventListener = null;
-        }
+//        if(mChildEventListener != null) {
+//            mMessagesDatabaseReference.removeEventListener(mChildEventListener);
+//            mChildEventListener = null;
+//        }
     }
 
     private void checkPreferences(){

@@ -22,4 +22,10 @@
     <string name="School">School</string>
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
+
+
+    <string-array name="chapter_arrays">
+        <item>Miami</item>
+        <item>University of Dayton</item>
+    </string-array>
 </resources>
