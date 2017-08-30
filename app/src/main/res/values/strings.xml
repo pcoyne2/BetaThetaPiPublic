@@ -18,6 +18,8 @@
     <string name="password">Password</string>
     <string name="sign_in">Sign In</string>
     <string name="chat_rooms_title">Chat Rooms</string>
+    <string name="signed_in">Signed in!</string>
+    <string name="sign_in_canceled">Sign in canceled</string>
 
     <string name="sign_out">Sign Out</string>
     <string name="send_button_label">Send</string>

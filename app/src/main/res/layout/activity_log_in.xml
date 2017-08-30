@@ -10,7 +10,6 @@
     <EditText
         android:id="@+id/school"
         android:text="@string/test_school"
-        android:hint="School as adapter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <EditText

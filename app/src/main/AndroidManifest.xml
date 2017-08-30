@@ -26,8 +26,6 @@
         <activity android:name=".SignInActivity"/>
         <activity android:name=".LogInActivity">
         </activity>
-        <activity android:name=".FirebaseTestActivity">
-        </activity>
 
         <receiver android:name=".SongWidget">
             <intent-filter>

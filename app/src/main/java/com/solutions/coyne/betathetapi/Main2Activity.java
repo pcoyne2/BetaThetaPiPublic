@@ -163,12 +163,12 @@ public class Main2Activity extends AppCompatActivity
         if(requestCode == RC_SIGN_IN) {
             if (resultCode == RESULT_OK) {
                 // Sign-in succeeded, set up the UI
-                Toast.makeText(this, "Signed in!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.signed_in), Toast.LENGTH_SHORT).show();
                 mFireBaseDatabase.getReference().child("users").push().setValue(mFirebaseAuth.getCurrentUser().getUid());
 //                mMessagesDatabaseReference = mFireBaseDatabase.getReference().child(mFirebaseAuth.getCurrentUser().getUid()).child("messages");
             } else if (resultCode == RESULT_CANCELED) {
                 // Sign in was canceled by the user, finish the activity
-                Toast.makeText(this, "Sign in canceled", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.sign_in_canceled), Toast.LENGTH_SHORT).show();
                 finish();
             }
         }else if(requestCode ==3 & resultCode == RESULT_OK){
