@@ -45,6 +45,7 @@ import java.util.Map;
 public class Main2Activity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
     public static final int RC_SIGN_IN = 1;
+    public static final int SIGN_IN = 3;
 
     private String mUsername;
     private boolean isLoggingIn;

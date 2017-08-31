@@ -23,13 +23,15 @@ public class SongWidget extends AppWidgetProvider {
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.song_widget);
         views.setTextViewText(R.id.widget_text, "");
-        Intent i = new Intent(context, Main2Activity.class);
-        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        i.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-        i.putExtra("FRAGMENT", "Songs");
-//        i.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0,
-                i, 0);
+//        Intent i = new Intent(context, Main2Activity.class);
+        Intent i = SongService.createIntentPlaySong(context);
+//        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        i.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+//        i.putExtra("FRAGMENT", "Songs");
+////        i.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+//        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0,
+//                i, 0);
+        PendingIntent pendingIntent = PendingIntent.getService(context, 0, i, 0);
         views.setOnClickPendingIntent(R.id.play_Button, pendingIntent);
 
         // Instruct the widget manager to update the widget

@@ -39,6 +39,9 @@
 
         <activity android:name=".MyProfile">
         </activity>
+
+        <service android:name=".SongService"
+                 android:exported="false"/>
     </application>
 
 </manifest>
